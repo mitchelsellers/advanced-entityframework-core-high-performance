@@ -48,6 +48,9 @@ public class DemoRunner(IDemoEngine engine) : IDemoRunner
                 case DemoCommandOptions.ListCurrentSpeakerData:
                     await engine.ListSpeakersAsync();
                     break;
+                case DemoCommandOptions.ListFullSpeakerHistory:
+                    await engine.ListSpeakersFullHistoryAsync();
+                    break;
                 case DemoCommandOptions.Exit:
                     exitRequested = true;
                     break;

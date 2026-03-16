@@ -64,30 +64,31 @@ public class DemoEngine(DemoDbContext context) : IDemoEngine
         foreach (var speaker in speakers)
         {
             var speakerEntry = context.Entry(speaker);
-            Console.WriteLine($"Name: {speaker.Name}, Title: {speaker.Title}, Company: {speaker.Company}, Sessions Given: {speaker.SessionsGiven}, Valid From: {speakerEntry.Property<DateTime>("ValidTo").CurrentValue}");
+            Console.WriteLine($"Name: {speaker.Name}, Title: {speaker.Title}, Company: {speaker.Company}, Sessions Given: {speaker.SessionsGiven}, PeriodStart: {speakerEntry.Property<DateTime>("PeriodStart").CurrentValue}");
         }
     }
 
     public async Task ListSpeakersFullHistoryAsync()
     {
+        Console.WriteLine("Full Speaker HIstory; ORdered by Speaker and Start");
+
         var speakers = await context.Speakers
             .TemporalAll()
             .OrderBy(s => s.Name)
-            .ThenBy(s => EF.Property<DateTime>(s, "ValidFrom"))
+            .ThenBy(s => EF.Property<DateTime>(s, "PeriodStart"))
             .Select(s => new
             {
                 s.Name,
                 s.Title,
                 s.Company,
                 s.SessionsGiven,
-                ValidFrom = EF.Property<DateTime>(s, "ValidFrom"),
-                ValidTo = EF.Property<DateTime>(s, "ValidTo")
+                PeriodStart = EF.Property<DateTime>(s, "PeriodStart"),
+                PeriodEnd = EF.Property<DateTime>(s, "PeriodEnd")
             })
             .ToListAsync();
         foreach (var speaker in speakers)
         {
-            var speakerEntry = context.Entry(speaker);
-            Console.WriteLine($"Name: {speaker.Name}, Title: {speaker.Title}, Company: {speaker.Company}, Sessions Given: {speaker.SessionsGiven}, Valid From: {speaker.ValidFrom}, Valid To: {speaker.ValidTo}");
+            Console.WriteLine($"Name: {speaker.Name}, Title: {speaker.Title}, Company: {speaker.Company}, Sessions Given: {speaker.SessionsGiven}, PeriodStart: {speaker.PeriodStart}, PeriodEnd: {speaker.PeriodEnd}");
         }
     }
 }

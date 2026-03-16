@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AdvancedFeatureDemos;
 
@@ -13,7 +10,8 @@ public enum DemoCommandOptions
     RandomlyUpdateSpeakerSessionCounts = 2,
     [Display(Name = "List Current Speaker Data")]
     ListCurrentSpeakerData = 3,
-
+    [Display(Name = "List Full Speaker History")]
+    ListFullSpeakerHistory = 4,
     [Display(Name = "Exit")]
     Exit = 99
 }
